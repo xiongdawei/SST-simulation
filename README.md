@@ -12,5 +12,9 @@ make all & make install usually take a long time especially for sst-elements-lib
 ### Problem 2
 It would be better if you have MPI installed otherwise you have to disable it in the ./configure configuration stage. During installation stage of open-mpi, I've encountered prblem like this. You have to get those library ready. You can reference the dependency graph in this link. 
 https://docs.open-mpi.org/en/v5.0.x/installing-open-mpi/required-support-libraries.html
-The solution is given in the link. I used the last solution: ./configure --with-hwloc-libdir=/usr/local/lib --with-libevent-libdir=/usr/local/lib  where you need to explicitly point out where to find these libraries. 
+The solution is given in the link. I used the last solution: 
+```
+./configure --with-hwloc-libdir=/usr/local/lib --with-libevent-libdir=/usr/local/lib
+```
+  where you need to explicitly point out where to find these libraries. 
 
