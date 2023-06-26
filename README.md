@@ -51,3 +51,9 @@ Then get back to the home directory and run
 sst test/test.py
 ```
 to see the results. 
+
+
+
+
+## How I Think we can transform RACER-Sim into SST
+
