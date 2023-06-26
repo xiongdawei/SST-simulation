@@ -30,9 +30,9 @@ The solution is given in the link. I used the last solution:
 
   $ ./tree-md .
 # Project tree
--src
+* -src
   --
--test
+* -test
   --
   
 
