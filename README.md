@@ -57,7 +57,11 @@ run the following command
 export SST_CORE_HOME=$HOME/local/sstcore-13.0.0 && export PATH=$SST_CORE_HOME/bin:$PATH
 ```
 ## SST in a nutshell
-
+http://sst-simulator.org/sst-docs/docs/core/component/introduction
+The SST-core doxygen in given in the link above. But I will give a few introduction.
+#### Component
+#### Clock
+#### TimeConverter
 
 ## How I Think we can transform RACER-Sim into SST
 
