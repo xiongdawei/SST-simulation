@@ -18,7 +18,7 @@ It would be better if you have MPI installed otherwise you have to disable it in
 ./configure
 ```
 configuration stage. During installation stage of open-mpi, I've encountered prblem like this. You have to get those library ready. You can reference the dependency graph in this link. 
-https://docs.open-mpi.org/en/v5.0.x/installing-open-mpi/required-support-libraries.html
+[https://docs.open-mpi.org/en/v5.0.x/installing-open-mpi/required-support-libraries.html]
 The solution is given in the link. I used the last solution: 
 ```
 ./configure --with-hwloc-libdir=/usr/local/lib --with-libevent-libdir=/usr/local/lib
@@ -56,9 +56,10 @@ run the following command
 ```
 export SST_CORE_HOME=$HOME/local/sstcore-13.0.0 && export PATH=$SST_CORE_HOME/bin:$PATH
 ```
-
-
+## SST in a nutshell
 
 
 ## How I Think we can transform RACER-Sim into SST
+
+
 
