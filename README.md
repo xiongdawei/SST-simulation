@@ -60,6 +60,7 @@ export SST_CORE_HOME=$HOME/local/sstcore-13.0.0 && export PATH=$SST_CORE_HOME/bi
 http://sst-simulator.org/sst-docs/docs/core/component/introduction
 The SST-core doxygen in given in the link above. But I will give a few introduction.
 #### Component
+Component is the most fundamental block in SST.
 #### Clock
 #### TimeConverter
 
