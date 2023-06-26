@@ -29,22 +29,25 @@ The solution is given in the link. I used the last solution:
 There is a quick tutorial on how to create your own external library based on SST.
 The directory is shown as follow
 ```bash
-├── app
-│   ├── css
-│   │   ├── **/*.css
-│   ├── favicon.ico
-│   ├── images
-│   ├── index.html
-│   ├── js
-│   │   ├── **/*.js
-│   └── partials/template
-├── dist (or build)
-├── node_modules
-├── bower_components (if using bower)
+├── src
+│   ├── cpuSimulation.cc
+│   ├── cpuSimulation.h
+│   ├── Makefile
 ├── test
-├── Gruntfile.js/gulpfile.js
-├── README.md
-├── package.json
-├── bower.json (if using bower)
-└── .gitignore
+│   ├── test.py
 ```
+To compile the external library you created, run 
+```
+make
+```
+to generate the dynamic library as libcpuSimulation.so.
+Run
+```
+make clean
+```
+to delete it.
+Then get back to the home directory and run 
+```
+sst test/test.py
+```
+to see the results. 
