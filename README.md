@@ -8,9 +8,16 @@ The detail step for how to download SST on mac is given in this link. However, y
 http://sst-simulator.org/SSTPages/SSTBuildAndInstall_13dot0dot0_SeriesDetailedBuildInstructions/
 
 ### Problem 1
-make all & make install usually take a long time especially for sst-elements-library. Remember to use make -j all & make -j install to utilize all the cores on your computer to facilitate this process.
+make all & make install usually take a long time especially for sst-elements-library. Remember to use
+```
+make -j all & make -j install to utilize all the cores on your computer to facilitate this process.
+```
 ### Problem 2
-It would be better if you have MPI installed otherwise you have to disable it in the ./configure configuration stage. During installation stage of open-mpi, I've encountered prblem like this. You have to get those library ready. You can reference the dependency graph in this link. 
+It would be better if you have MPI installed otherwise you have to disable it in the 
+```
+./configure
+```
+configuration stage. During installation stage of open-mpi, I've encountered prblem like this. You have to get those library ready. You can reference the dependency graph in this link. 
 https://docs.open-mpi.org/en/v5.0.x/installing-open-mpi/required-support-libraries.html
 The solution is given in the link. I used the last solution: 
 ```
