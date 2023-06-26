@@ -54,7 +54,7 @@ to see the results.
 ## How to Configure you terminal to use SST
 run the following command 
 ```
-$ export SST_CORE_HOME=$HOME/local/sstcore-13.0.0 & $ export PATH=$SST_CORE_HOME/bin:$PATH
+$ export SST_CORE_HOME=$HOME/local/sstcore-13.0.0 && $ export PATH=$SST_CORE_HOME/bin:$PATH
 ```
 
 
