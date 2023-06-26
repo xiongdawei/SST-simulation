@@ -25,14 +25,16 @@ The solution is given in the link. I used the last solution:
 ```
   where you need to explicitly point out where to find these libraries. 
 
-  ## How to create external library
-  There is a quick tutorial on how to create your own external library based on SST
+## How to create external library
+There is a quick tutorial on how to create your own external library based on SST.
+The directory is shown as follow
+.
+├── ...
+├── test                    # Test files (alternatively `spec` or `tests`)
+│   ├── benchmarks          # Load and stress tests
+│   ├── integration         # End-to-end, integration tests (alternatively `e2e`)
+│   └── unit                # Unit tests
+└── ...
 
-  $ ./tree-md .
-# Project tree
-* src
-  --
-* test
-  --
   
 
