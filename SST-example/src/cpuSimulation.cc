@@ -22,7 +22,7 @@ cpuSimulation::cpuSimulation(SST::ComponentId_t id, SST::Params& params) : Compo
 	right_link = configureLink("right_port", new SST::Event::Handler<cpuSimulation>(this, &cpuSimulation::handleEvent));
 
     sst_assert(top_link, CALL_INFO, -1, "Error in %s: Top Link configuration failed\n", getName().c_str());
-    sst_assert(bottom_link, CALL_INFO, -1, "Error in %s: Bottom Link configuration failed\n", getName().c_str()
+    sst_assert(bottom_link, CALL_INFO, -1, "Error in %s: Bottom Link configuration failed\n", getName().c_str();
     sst_assert(left_link, CALL_INFO, -1, "Error in %s: Left Link configuration failed\n", getName().c_str());
 	sst_assert(right_link, CALL_INFO, -1, "Error in %s: Right Link configuration failed\n", getName().c_str());
 
