@@ -113,7 +113,6 @@ bool cpuSimulation::clockTic(SST::Cycle_t cycleCount)
         cpuEvent *event_to_bottom = new cpuEvent(eventSize, ID, TOP);
         cpuEvent *event_to_left = new cpuEvent(eventSize, ID, RIGHT);
         cpuEvent *event_to_right = new cpuEvent(eventSize, ID, LEFT);
-        //out->verbose(CALL_INFO, 1, 0, "Ababababab");
         for (int i = 0; i < eventSize; i++) {
             event_to_top->payload.push_back(1);
             event_to_bottom->payload.push_back(1);
@@ -127,12 +126,31 @@ bool cpuSimulation::clockTic(SST::Cycle_t cycleCount)
             event_to_right->last = true;
         }
         eventsToSend--;
-        left_link->send(event_to_left);
-	    right_link->send(event_to_right);
-        top_link->send(event_to_top);
-        bottom_link->send(event_to_bottom);
+        if (isPortConnected("top_port")) {
+            top_link->send(event_to_top);
+        }
+        if (isPortConnected("bottom_port")) {
+            bottom_link->send(event_to_bottom);
+        }
+        if (isPortConnected("left_port")) {
+            left_link->send(event_to_left);
+        }
+        if (isPortConnected("right_port")) {
+            right_link->send(event_to_right);
+        }
     }
-
+    if (ShowRes == 1) {
+        out->verbose(CALL_INFO, 1, 0, "Clock Ticks: %lld\n", cycleCount);
+        if (bottom_data.size() > 0) {
+            for (int i = 0; i < bottom_data.size(); ++i) {
+                for (int j = 0; j < eventSize; ++j) {
+                    out->verbose(CALL_INFO, 1, 0, "Bottom data %d\n",bottom_data[i][j]);
+                }   
+            } 
+        } else {
+            out->verbose(CALL_INFO, 1, 0, "Bottom data is empty\n");
+        }    
+    }
     if (eventsToSend == 0 && lastEventReceived == true) { 
         primaryComponentOKToEndSim(); 
         return true;

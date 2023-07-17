@@ -33,12 +33,12 @@ public:
         ser & payload;
         ser & last;
     }
-    void showData() {
-        for (int i = 0; i < data.size(); i++) {
-            std::cout << data[i] << " ";
-        }
-        std::cout << "Data Coming from: " << org_id << "\n" << std::endl;
-    };
+    // void showData() {
+    //     for (int i = 0; i < data.size(); i++) {
+    //         std::cout << data[i] << " ";
+    //     }
+    //     std::cout << "Data Coming from: " << org_id << "\n" << std::endl;
+    // };
 
     ImplementSerializable(cpuEvent);
 };

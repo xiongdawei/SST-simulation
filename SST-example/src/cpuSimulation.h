@@ -48,6 +48,7 @@ private:
     int eventSize;
     bool lastEventReceived;
     bool ShowRes;
+    bool propogate = false;
 
     SST::Output* out;
 
