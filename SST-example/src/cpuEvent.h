@@ -5,12 +5,13 @@
 #include <vector>
 #include <random>
 
+enum Direction {TOP, BOTTOM, LEFT, RIGHT};
+
 class cpuEvent : public SST::Event
 {
 public:
     cpuEvent() {};
-    cpuEvent(int vec_len) {
-        std::cout << "Do I be here" << std::endl;
+    cpuEvent(int vec_len, SST::ComponentId_t id, Direction dir_) {
         last = false;
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -19,9 +20,13 @@ public:
             data.push_back(dis(gen));
         }
         last = false;
+        org_id = id;
+        dir = dir_;
     };
     std::vector<char> payload;
     std::vector<int> data;
+    SST::ComponentId_t org_id;
+    Direction dir;
     bool last;
     void serialize_order(SST::Core::Serialization::serializer &ser)  override {
         Event::serialize_order(ser);
@@ -32,7 +37,7 @@ public:
         for (int i = 0; i < data.size(); i++) {
             std::cout << data[i] << " ";
         }
-        std::cout << "\n" << std::endl;
+        std::cout << "Data Coming from: " << org_id << "\n" << std::endl;
     };
 
     ImplementSerializable(cpuEvent);

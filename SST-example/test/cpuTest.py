@@ -5,13 +5,19 @@ cpu3 = sst.Component("cpu3", "cpuSimulation.cpu")
 cpu4 = sst.Component("cpu4", "cpuSimulation.cpu")
 
 params = {
-        "eventsToSend" : 1,    # Required parameter, error if not provided
-        "eventSize" : 1        # Optional parameter, defaults to 16 if not provided
+        "eventsToSend" : 2,    # Required parameter, error if not provided
+        "eventSize" : 10  
+              # Optional parameter, defaults to 16 if not provided
 }
 cpu1.addParams(params)
 cpu2.addParams(params)
 cpu3.addParams(params)
-cpu4.addParams(params)
+params_showData = {
+        "eventsToSend" : 2,    # Required parameter, error if not provided
+        "eventSize" : 10,
+        "ShowRes" : 1
+}
+cpu4.addParams(params_showData)
 
 link1 = sst.Link("cpu1_to_cpu2")
 link2 = sst.Link("cpu2_to_cpu1")

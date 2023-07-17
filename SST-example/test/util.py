@@ -1,6 +1,10 @@
 import numpy as np
+import sst 
 
-class SSTopGen:
+
+TYPES = {'GRID', 'RING', 'TORUS'}
+
+class SSTGenerator:
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -50,5 +54,16 @@ class SSTopGen:
             self.plot_ver_connection()
         self.plot_row((self.y-1)*self.x)
 
-test = SSTopGen(8,8)
-test.plot()
+    def generate_simulation(self, x, y):
+        cpu_list = []
+        link_list = []
+        for i in range(x*y):
+            cpu_list[i] = sst.Component('cpu' + str(i), 'cpuSimulation.cpu')
+        for i in range(x*y):
+            link_list[i] = sst.Link('link' + str(i))
+
+        
+        
+
+test = SSTopGen(8,1)
+test.grid_plot()
