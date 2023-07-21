@@ -6,7 +6,8 @@ cpu4 = sst.Component("cpu4", "cpuSimulation.cpu")
 
 params = {
         "eventsToSend" : 1,    # Required parameter, error if not provided
-        "eventSize" : 10  
+        "eventSize" : 10,
+        "ShowRes" : 1 
               # Optional parameter, defaults to 16 if not provided
 }
 cpu1.addParams(params)
@@ -28,6 +29,11 @@ link1.connect((cpu1, "right_port", "1ns"), (cpu2, "left_port", "1ns"))
 link2.connect((cpu2, "bottom_port", "1ns"), (cpu4, "top_port", "1ns"))
 link3.connect((cpu4, "left_port", "1ns"), (cpu3, "right_port", "1ns"))
 link4.connect((cpu3, "top_port", "1ns"), (cpu1, "bottom_port", "1ns"))
+
+# cpu0 - cpu1
+#   |     |
+# cpu2 - cpu3
+#
 
 
 
