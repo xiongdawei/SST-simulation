@@ -11,6 +11,12 @@ class cpuEvent : public SST::Event
 {
 public:
     cpuEvent() {};
+    cpuEvent(std::vector<int> data_, SST::ComponentId_t id, Direction dir_) {
+        last = false;
+        data = data_;
+        org_id = id;
+        dir = dir_;
+    };
     cpuEvent(int vec_len, SST::ComponentId_t id, Direction dir_) {
         last = false;
         std::random_device rd;
@@ -33,13 +39,12 @@ public:
         ser & payload;
         ser & last;
     }
-    // void showData() {
-    //     for (int i = 0; i < data.size(); i++) {
-    //         std::cout << data[i] << " ";
-    //     }
-    //     std::cout << "Data Coming from: " << org_id << "\n" << std::endl;
-    // };
-
+    void showData() {
+        for (int i = 0; i < data.size(); i++) {
+            std::cout << data[i] << " ";
+        }
+        std::cout << "Data Coming from: " << org_id << "\n" << std::endl;
+    };
     ImplementSerializable(cpuEvent);
 };
 
