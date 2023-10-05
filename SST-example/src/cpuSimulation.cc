@@ -4,39 +4,33 @@
 #include "cpuSimulation.h"
 #include "cpuEvent.h"
 
-cpuSimulation::cpuSimulation(SST::ComponentId_t id, SST::Params& params) : 
-    Component(id),
-    initialized(false)
-{
+cpuSimulation::cpuSimulation(SST::ComponentId_t id, SST::Params& params) : Component(id) {
+
     out = new SST::Output("", 1, 0, SST::Output::STDOUT);
     ID = id;
     out->verbose(CALL_INFO, 1, 0, "The Component ID is %llu\n", ID);
     bool found;
     eventsToSend = params.find<int64_t>("eventsToSend", 0, found);
     ShowRes = params.find<int>("ShowRes", 0);
-    num_peers = params.find<int>("num_peers",2);
-    link_control = loadUserSubComponent<SST::Interfaces::SimpleNetwork>
-        ("networkIF", SST::ComponentInfo::SHARE_NONE, 1 /* vns */);
-
-    if (!link_control) {
-
-        SST::Params if_params;
-        if_params.insert("link_bw",params.find<std::string>("link_bw"));
-        if_params.insert("input_buf_size","1kB");
-        if_params.insert("output_buf_size","1kB");
-        if_params.insert("port_name","rtr");
-        link_control = loadAnonymousSubComponent<SST::Interfaces::SimpleNetwork>
-            ("merlin.linkcontrol", "networkIF", 0,
-             SST::ComponentInfo::SHARE_PORTS | SST::ComponentInfo::INSERT_STATS, if_params, 1 /* vns */);
-    }
-
-    //SST::UnitAlgebra link_bw = params.find<SST::UnitAlgebra>("link_bw",SST::UnitAlgebra("2B/s"));
-
     if (!found) {
-        out->fatal(CALL_INFO, -1, "Error in %s: the input did not specify 'eventsToSend' parameter\n", getName().c_str());
+        out->verbose(CALL_INFO, 1, 0, "Error in %s: the input did not specify 'eventsToSend' parameter\n", getName().c_str());
     }
     
     eventSize = params.find<int64_t>("eventSize", 16);
+
+    // Create a LC object first see if it is defined in Python
+    link_control = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("networkIF", SST::ComponentInfo::SHARE_NONE, 1 /* vns */);
+    if ( !link_control) {
+        out->verbose(CALL_INFO, 1, 0, "Use default link control\n");
+        SST::Params if_params;
+        if_params.insert("port_name", "rtr");
+        if_params.insert("input_buf_size", "1kB");
+        if_params.insert("output_buf_size", "1kB");
+        if_params.insert("link_bw", params.find<std::string>("link_bw"));
+        link_control = loadAnonymousSubComponent<SST::Interfaces::SimpleNetwork>("merlin.linkcontrol", "networkIF", 0, SST::ComponentInfo::SHARE_PORTS | SST::ComponentInfo::INSERT_STATS, if_params, 1 /* vns */);
+    } else {
+        out->verbose(CALL_INFO, 1, 0, "Initialize link control\n");
+    }
 
     registerAsPrimaryComponent();
     primaryComponentDoNotEndSim();
@@ -158,6 +152,7 @@ bool cpuSimulation::clockTic(SST::Cycle_t cycleCount)
         if (isPortConnected("right_port")) {
             right_link->send(event_to_right);
         }
+        SST::Interfaces::SimpleNetwork::Request* req = new SST::Interfaces::SimpleNetwork::Request(1, 0, 64, true, true);
     }
     if (ShowRes == 1) {
         out->verbose(CALL_INFO, 1, 0, "Clock Ticks: %lld\n", cycleCount);
@@ -219,50 +214,4 @@ void cpuSimulation::showVectorSum() {
         }
         std::cout << std::endl;
     }
-}
-
-void cpuSimulation::init(unsigned int phase) {
-    link_control->init(phase);
-    if ( ID == 0 && !initialized ) {
-        if ( link_control->isNetworkInitialized() ) {
-            initialized = true;
-            SST::Interfaces::SimpleNetwork::Request* req =
-                new SST::Interfaces::SimpleNetwork::Request(SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR, ID,
-                                           0, true, true);
-            link_control->sendUntimedData(req);
-        }
-    }
-    else {
-        SST::Interfaces::SimpleNetwork::Request* req = link_control->recvUntimedData();
-        if ( req != NULL ) {
-            delete req;
-            initialized = true;
-        }
-    }
-}
-
-void cpuSimulation::setup()
-{
-    link_control->setup();
-    if ( link_control->getEndpointID() != ID ) {
-        std::cout << "NIC ids don't match: param = " << ID << ", LinkControl = "
-                          << link_control->getEndpointID() << std::endl;
-    }
-    if ( !initialized ) {
-        std::cout << "Nic " << ID << ": Broadcast failed!" << std::endl;
-    }
-
-    if ( 0 == ID ){
-        sending = true;
-        // Send first event to kick things off
-        SST::Interfaces::SimpleNetwork::Request* req =
-            new SST::Interfaces::SimpleNetwork::Request(num_peers - 1, 0, 64, true, true);
-        link_control->send(req,0);
-        // std::cout << req->src << " sending to " << req->dest << std::endl;
-    }
-}
-
-void cpuSimulation::finish()
-{
-    link_control->finish();
 }
