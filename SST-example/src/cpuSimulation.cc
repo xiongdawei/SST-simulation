@@ -7,15 +7,16 @@
 cpuSimulation::cpuSimulation(SST::ComponentId_t id, SST::Params& params) : Component(id) {
 
     out = new SST::Output("", 1, 0, SST::Output::STDOUT);
-    ID = id;
+
     out->verbose(CALL_INFO, 1, 0, "The Component ID is %llu\n", ID);
     bool found;
+    ID = params.find<int>("id", -1);
     eventsToSend = params.find<int64_t>("eventsToSend", 0, found);
     ShowRes = params.find<int>("ShowRes", 0);
-    if (!found) {
-        out->verbose(CALL_INFO, 1, 0, "Error in %s: the input did not specify 'eventsToSend' parameter\n", getName().c_str());
-    }
-    
+    // if (!found) {
+    //     out->verbose(CALL_INFO, 1, 0, "Error in %s: the input did not specify 'eventsToSend' parameter\n", getName().c_str());
+    // }
+
     eventSize = params.find<int64_t>("eventSize", 16);
 
     // Create a LC object first see if it is defined in Python
@@ -26,7 +27,8 @@ cpuSimulation::cpuSimulation(SST::ComponentId_t id, SST::Params& params) : Compo
         if_params.insert("port_name", "rtr");
         if_params.insert("input_buf_size", "1kB");
         if_params.insert("output_buf_size", "1kB");
-        if_params.insert("link_bw", params.find<std::string>("link_bw"));
+        //if_params.insert("link_bw", params.find<std::string>("link_bw"));
+        if_params.insert("link_bw", "1GB/s");
         link_control = loadAnonymousSubComponent<SST::Interfaces::SimpleNetwork>("merlin.linkcontrol", "networkIF", 0, SST::ComponentInfo::SHARE_PORTS | SST::ComponentInfo::INSERT_STATS, if_params, 1 /* vns */);
     } else {
         out->verbose(CALL_INFO, 1, 0, "Initialize link control\n");

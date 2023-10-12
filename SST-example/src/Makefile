@@ -17,9 +17,9 @@ install:
 	sst-register cpuSimulation cpuSimulation_LIBDIR=$(CURDIR)
 	sst-register SST_ELEMENT_SOURCE cpuSimulation=$(CURDIR)
 	sst-register SST_ELEMENT_TESTS  cpuSimulation=$(CURDIR)/../tests
-	sst-register trafficgen trafficgen_LIBDIR=$(CURDIR)
-	sst-register SST_ELEMENT_SOURCE trafficgen=$(CURDIR)
-	sst-register SST_ELEMENT_TESTS  trafficgen=$(CURDIR)/../tests
+	sst-register cpuSimulation cpuSimulation_LIBDIR=$(CURDIR)
+	sst-register SST_ELEMENT_SOURCE cpuSimulation=$(CURDIR)
+	sst-register SST_ELEMENT_TESTS  cpuSimulation=$(CURDIR)/../tests
 
 .PHONY:
 	clean install make all
